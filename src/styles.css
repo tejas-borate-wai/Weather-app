@@ -1,0 +1,428 @@
+body.dark-mode {
+    background-color: #1e1e1e;
+    color: white;
+}
+
+/* General Card Styling */
+.card {
+    background: #575555;
+    color: white;
+    border-radius: 10px;
+
+}
+
+.card:hover {
+    box-shadow: 5px 5px 13px 3px rgb(46, 46, 46) !important;
+}
+
+/* Dark Mode Toggle */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 26px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 26px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+input:checked+.slider {
+    background-color: #4CAF50;
+}
+
+input:checked+.slider:before {
+    transform: translateX(24px);
+}
+
+/* Search Bar */
+.search-bar {
+    max-width: 700px;
+}
+
+.search-input {
+    height: 50px;
+    background-color: #2d2d2d;
+    border: none;
+    border-radius: 30px 0 0 30px;
+    color: white;
+    font-size: 18px;
+    padding-right: 10px;
+    padding-left: 50px;
+    font-weight: bold;
+}
+
+.search-input::placeholder {
+    color: #aaa;
+}
+
+.search-icon {
+    background-color: #2d2d2d;
+    color: white;
+    border: none;
+    border-radius: 0 30px 30px 0;
+    font-size: 20px;
+    padding: 10px 15px;
+    cursor: pointer;
+}
+
+/* Current Location Button */
+.current-location-btn {
+    text-align: center;
+    width: 300px;
+    height: 50px;
+    font-size: 18px;
+    border-radius: 30px;
+}
+
+/* Ensures both sections have the same height */
+.equal-height {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    min-height: 200px;
+}
+
+/* Time & Date Card */
+.time-card {
+    color: white;
+    border-radius: 15px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+    padding: 30px;
+}
+
+/* City Name */
+.city-name {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+/* Time & Date Display */
+.time-display {
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+.date-display {
+    font-size: 1rem;
+    color: #ccc;
+}
+
+/* Weather Card */
+.weather-card {
+    color: white;
+    border-radius: 15px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+    padding: 30px;
+}
+
+/* Temperature Styling */
+.temperature {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.feels-like {
+    font-size: 1rem;
+    color: #bbb;
+}
+
+.feels-like span {
+    font-weight: bold;
+    color: white;
+}
+
+/* Weather Icons */
+.weather-icon {
+    width: 150px;
+    height: 150px;
+}
+
+.weather-icon-sun {
+    width: 130px;
+    height: 130px;
+}
+
+.weather-icon-small {
+    width: 40px;
+    height: 40px;
+}
+
+/* Sunrise & Sunset Section */
+.sun-info {
+    display: flex;
+    justify-content: start;
+    gap: 20px;
+}
+
+.sun-item {
+    text-align: center;
+}
+
+.time-text {
+    font-size: 0.9rem;
+    color: #bbb;
+}
+
+.sun-item p {
+    margin: 0;
+    font-size: 1rem;
+    color: white;
+}
+
+/* Weather Stats Grid */
+.weather-stats .row {
+    margin-bottom: 10px;
+}
+
+/* Hourly Forecast */
+.hour-card {
+    text-align: center;
+    padding: 10px;
+}
+
+
+.forecast-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.forecast-item {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 15px;
+    padding: 4px 0;
+}
+
+.forecast-icon {
+    width: 40px;
+    height: 40px;
+}
+
+.temp {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.date {
+    font-size: 1rem;
+    color: #bbb;
+    margin-left: auto;
+}
+
+
+/* Main Forecast Card */
+.forecast-card {
+
+    color: white;
+    border-radius: 15px;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+/* Individual Hourly Cards */
+.hour-card {
+    background-color: black;
+    border-radius: 15px;
+    padding: 15px;
+    width: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 5px;
+    margin: 5px 25px;
+}
+
+/* Time */
+.time {
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+/* Weather Image */
+.weather-icon {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 10px;
+}
+
+/* Temperature */
+.temp {
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.temp1 {
+    font-weight: bold;
+    font-size: 18px;
+    margin: 2px 0px;
+}
+
+/* Wind Image */
+.wind-icon {
+    width: 30px;
+    height: 30px;
+    margin-bottom: 10px;
+}
+
+/* Wind Speed */
+.wind-speed {
+    font-size: 14px;
+}
+
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+
+    /* Stack search bar and buttons on smaller screens */
+    .d-flex.justify-content-between {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .search-bar {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .current-location-btn {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    /* Adjust weather stats for better display */
+    .weather-stats .row {
+        flex-direction: column;
+    }
+
+    .weather-stats .col-6 {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}
+
+@media (max-width: 768px) {
+
+    /* Reduce padding for better spacing */
+    .card {
+        padding: 15px;
+    }
+
+    /* Reduce icon and text size */
+    .weather-icon {
+        width: 100px;
+        height: 100px;
+    }
+
+    .temperature {
+        font-size: 1.8rem;
+    }
+
+    .feels-like {
+        font-size: 0.9rem;
+    }
+
+    /* Adjust sun info */
+    .sun-info {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    /* Forecast Section: Make hourly cards scrollable */
+    .d-flex.justify-content-center.text-center.flex-wrap {
+        display: flex;
+        overflow-x: auto;
+        white-space: nowrap;
+        padding-bottom: 10px;
+        justify-content: flex-start;
+    }
+
+    .hour-card {
+        min-width: 90px;
+        margin: 5px;
+    }
+}
+
+@media (max-width: 576px) {
+
+    /* Adjust text and spacing */
+    .city-name {
+        font-size: 1rem;
+    }
+
+    .time-display {
+        font-size: 2.5rem;
+    }
+
+    .date-display {
+        font-size: 0.9rem;
+    }
+
+    /* Reduce button sizes */
+    .current-location-btn {
+        font-size: 16px;
+        height: 45px;
+    }
+
+    /* Weather stats grid: Stack items */
+    .weather-stats .row {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    /* Adjust forecast section */
+    .forecast-item {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .forecast-icon {
+        width: 35px;
+        height: 35px;
+    }
+
+    .temp {
+        font-size: 1rem;
+    }
+
+    .date {
+        font-size: 0.9rem;
+    }
+
+    /* Reduce card padding */
+    .forecast-card {
+        padding: 10px;
+    }
+}

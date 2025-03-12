@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="dark-mode">
+
+    <!-- Top Section -->
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center">
+            <!-- Dark Mode Toggle -->
+            <div class="text-center">
+                <label class="switch mt-4">
+                    <input type="checkbox" id="darkModeToggle">
+                    <span class="slider round"></span>
+                </label>
+                <p id="modeText" class="mt-2 text-white">Dark Mode</p>
+            </div>
+
+            <!-- Search Bar with Icon -->
+            <div class="input-group mb-3 search-bar">
+                <input type="text" class="form-control search-input" placeholder="Search for your preferred city..."
+                    aria-label="Search city">
+                <span class="input-group-text search-icon ">🔍</span>
+            </div>
+
+
+
+
+
+
+            <!-- Current Location Button -->
+            <button
+                class="btn  current-location-btn d-flex align-items-center justify-content-center fw-bold text-center"
+                style="background-color: rgb(0, 252, 63);">
+                📍 Current Location
+            </button>
+
+        </div>
+    </div>
+
+    <!-- Weather Information -->
+    <div class="container mt-4">
+        <div class="row">
+            <!-- Current Time & Date -->
+            <div class="col-md-4">
+                <div class="card text-center p-4 equal-height time-card">
+                    <h4 class="city-name">Athens</h4>
+                    <h2 id="currentTime" class="time-display">09:03</h2>
+                    <p class="date-display">Thursday, 31 Aug</p>
+                </div>
+            </div>
+
+
+            <!-- Weather Details -->
+            <div class="col-md-8">
+                <div class="card p-4 weather-card equal-height">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <!-- Left Section (Temperature & Sunrise/Sunset) -->
+                        <div>
+                            <h1 class="temperature">24°C</h1>
+                            <p class="feels-like">Feels like: <span>22°C</span></p>
+
+                            <!-- Sunrise & Sunset -->
+                            <div class="sun-info d-flex align-items-center">
+                                <!-- Sunrise -->
+                                <div class="sun-item text-center me-4">
+                                    <img src="images/sunrise-white-1-113.png" alt="Sunrise" class="weather-icon-small">
+                                    <p><b>Sunrise</b><br><span class="time-text">06:37 AM</span></p>
+                                </div>
+
+                                <!-- Sunset -->
+                                <div class="sun-item text-center">
+                                    <img src="images/sunset-white-1-108.png" alt="Sunset" class="weather-icon-small">
+                                    <p><b>Sunset</b><br><span class="time-text">20:37 PM</span></p>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Center Section (Weather Icon & Condition) -->
+                        <div class="text-center">
+                            <img src="images/clear-1-98.png" alt="Sunny" class=" weather-icon-sun">
+                            <h4 class="weather-condition">Sunny</h4>
+                        </div>
+
+                        <!-- Right Section (Weather Stats in 2x2 grid) -->
+                        <div class="weather-stats">
+                            <div class="row">
+                                <div class="col-6 text-center">
+                                    <img src="images/humidity-1-95.png" alt="Humidity" class="weather-icon-small">
+                                    <p><b>41%</b><br>Humidity</p>
+                                </div>
+                                <div class="col-6 text-center">
+                                    <img src="images/wind-1-90.png" alt="Wind Speed" class="weather-icon-small">
+                                    <p><b>2km/h</b><br>Wind Speed</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6 text-center">
+                                    <img src="images/pressure-white-1-85.png" alt="Pressure" class="weather-icon-small">
+                                    <p><b>997hPa</b><br>Pressure</p>
+                                </div>
+                                <div class="col-6 text-center">
+                                    <img src="images/uv-white-1-80.png" alt="UV Index" class="weather-icon-small">
+                                    <p><b>8</b><br>UV Index</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+
+    <!-- Forecast Section -->
+    <div class="container mt-4">
+        <div class="row">
+            <!-- 5 Days Forecast -->
+            <div class="col-md-3">
+                <div class="card forecast-card p-4 pb-0">
+                    <h4 class="forecast-title">5 Days Forecast:</h4>
+                    <ul class="list-unstyled">
+                        <li class="forecast-item">
+                            <img src="images/clouds-1-71.png" alt="Cloudy" class="forecast-icon">
+                            <span class="temp">20°C</span>
+                            <span class="date">Friday, 1 Sep</span>
+                        </li>
+                        <li class="forecast-item">
+                            <img src="images/clouds-2-19.png" alt="Partly Cloudy" class="forecast-icon">
+                            <span class="temp">22°C</span>
+                            <span class="date">Saturday, 2 Sep</span>
+                        </li>
+                        <li class="forecast-item">
+                            <img src="images/clear-1-98.png" alt="Sunny" class="forecast-icon">
+                            <span class="temp">27°C</span>
+                            <span class="date">Sunday, 3 Sep</span>
+                        </li>
+                        <li class="forecast-item">
+                            <img src="images/rain-1-55.png" alt="Rainy" class="forecast-icon">
+                            <span class="temp">18°C</span>
+                            <span class="date">Monday, 4 Sep</span>
+                        </li>
+                        <li class="forecast-item">
+                            <img src="images/clouds-2-28.png" alt="Cloudy with Rain" class="forecast-icon">
+                            <span class="temp">16°C</span>
+                            <span class="date">Tuesday, 5 Sep</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+
+            <div class="col-md-9 mx-auto">
+                <div class="card forecast-card p-4">
+                    <h4 class="fw-bold text-center mb-3">Hourly Forecast:</h4>
+                    <div class="d-flex justify-content-center text-center flex-wrap">
+                        <div class="hour-card">
+                            <p class="time">12:00</p>
+                            <img src="images/clear-1-98.png" alt="Sunny" class="weather-icon">
+                            <p class="temp temp1">26°C</p>
+                            <img src="images/navigation-1-16.png" alt="Wind" class="wind-icon">
+                            <p class="wind-speed">3km/h</p>
+                        </div>
+                        <div class="hour-card">
+                            <p class="time">15:00</p>
+                            <img src="images/clear-1-98.png" alt="Sunny" class="weather-icon">
+                            <p class="temp temp1">27°C</p>
+                            <img src="images/navigation-1-25.png" alt="Wind" class="wind-icon">
+                            <p class="wind-speed">2km/h</p>
+                        </div>
+                        <div class="hour-card">
+                            <p class="time">18:00</p>
+                            <img src="images/clouds-2-19.png" alt="Partly Cloudy" class="weather-icon">
+                            <p class="temp temp1">27°C</p>
+                            <img src="images/navigation-1-34.png" alt="Wind" class="wind-icon">
+                            <p class="wind-speed">2km/h</p>
+                        </div>
+                        <div class="hour-card">
+                            <p class="time">21:00</p>
+                            <img src="images/clouds-1-71.png" alt="Cloudy" class="weather-icon">
+                            <p class="temp temp1">25°C</p>
+                            <img src="images/navigation-1-43.png" alt="Wind" class="wind-icon">
+                            <p class="wind-speed">3km/h</p>
+                        </div>
+                        <div class="hour-card">
+                            <p class="time">00:00</p>
+                            <img src="images/clear-1-98.png" alt="Sunny" class="weather-icon">
+                            <p class="temp temp1">22°C</p>
+                            <img src="images/navigation-1-7.png" alt="Wind" class="wind-icon">
+                            <p class="wind-speed">3km/h</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bootstrap JS -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="script.js"></script>
+</body>
+
+</html>
