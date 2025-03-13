@@ -14,53 +14,73 @@ darkModeToggle.addEventListener("change", () => {
   }
 });
 
-function updateTime() {
+function updateTime(cityName) {
   const now = new Date();
   const hours = String(now.getHours()).padStart(2, "0");
   const minutes = String(now.getMinutes()).padStart(2, "0");
   const second = String(now.getSeconds()).padStart(2, "0");
 
+  // Show current time and the city name dynamically
   document.getElementById(
     "currentTime"
   ).innerText = `${hours}:${minutes}:${second}`;
+
+  // Update city name in the time section if it's available
+  if (cityName) {
+    document.getElementById(
+      "cityNameInTimeSection"
+    ).innerText = `in ${cityName}`;
+  }
 }
 
-setInterval(updateTime, 1000);
-updateTime();
+setInterval(() => updateTime(cityNameInTimeSection), 1000);
+updateTime(); // To initialize the current time
 
 function TodaysDate() {
   const options = { weekday: "long", day: "2-digit", month: "short" };
   const currentDate = new Date().toLocaleDateString("en-GB", options);
-
   document.querySelector(".date-display").innerText = `${currentDate}`;
 }
 TodaysDate();
 
+// API Key
 const apiKey = "f7c45514dfdb16b7f66921d3fe5217f7";
 
+// Search bar
 let city_name_input = document.querySelector(".search-input");
 let search_icon = document.querySelector(".search-icon");
 let city_name_value;
 
 search_icon.addEventListener("click", () => {
-  console.log("input city name :", city_name_input.value);
-
-  city_name_value = city_name_input.value;
-  fetchData();
+  city_name_value = city_name_input.value.trim();
+  if (city_name_value) {
+    fetchData(city_name_value);
+  } else {
+    alert("Please enter a city name");
+  }
   city_name_input.value = "";
 });
 
-function fetchData() {
+// Function to fetch weather data based on city name
+function fetchData(city_name_value) {
   fetch(
     `https://api.openweathermap.org/data/2.5/weather?q=${city_name_value}&appid=${apiKey}&units=metric`
   )
-    .then((res) => {
-      let response = res.json();
-      return response;
-    })
+    .then((res) => res.json())
     .then((data) => {
+      if (data.cod === "404") {
+        alert("City not found. Please enter a valid city name.");
+        return;
+      }
+
       let cityName = data.name;
+
+      // Display city name in both sections
       document.querySelector(".city-name").innerText = cityName;
+      document.getElementById(
+        "cityNameInTimeSection"
+      ).innerText = `in ${cityName}`;
+      updateTime(cityName); // Update time with city name
 
       let temperature = Math.round(data.main.temp);
       document.querySelector(".temperature").innerText = `${temperature}°C`;
@@ -81,19 +101,14 @@ function fetchData() {
       document.querySelector(".UV-Index").innerText = `${uvIndex}hPa`;
 
       let weatherInfo = data.weather[0].main;
-      // console.log(weatherInfo);
-      console.log(data);
       document.querySelector(".weather-condition").innerText = `${weatherInfo}`;
 
-      // gett current day and date
+      // Get the current day and date
       function getDayAndDate(data) {
         let timestamp = data.dt;
         let timezoneOffset = data.timezone;
-
         let utcDate = new Date(timestamp * 1000);
-
         let localDate = new Date(utcDate.getTime() + timezoneOffset * 1000);
-
         let day = localDate.toLocaleDateString("en-US", { weekday: "long" });
         let date = localDate.toLocaleDateString("en-US", {
           day: "2-digit",
@@ -108,16 +123,14 @@ function fetchData() {
 
       document.querySelector(
         ".date-display"
-      ).innerText = `${currentDay} , ${currentDate}`;
+      ).innerText = `${currentDay}, ${currentDate}`;
 
-      // Get Sunset and Sunrise Time
+      // Format sunrise and sunset times
       function formatTime(timestamp, isSunrise) {
         const date = new Date(timestamp * 1000);
         let hours = date.getHours();
         const minutes = date.getMinutes().toString().padStart(2, "0");
-
         const amPm = isSunrise ? "AM" : "PM";
-
         hours = hours % 12 || 12;
         return hours.toString().padStart(2, "0") + ":" + minutes + " " + amPm;
       }
@@ -127,7 +140,7 @@ function fetchData() {
       document.querySelector(".sunrise-time").innerHTML = sunRise;
       document.querySelector(".sunset-time").innerHTML = sunSet;
 
-      // Function to get weather icon based on condition
+      // Function to get weather icons
       function getWeatherIcon(condition) {
         const icons = {
           Clear: "images/clear-1-98.png",
@@ -139,46 +152,33 @@ function fetchData() {
           Mist: "images/mist-1-67.png",
           Smoke: "images/mist-1-67.png",
         };
-
-        // Return corresponding icon or fallback icon
-        return icons[condition] || "images/clear-1-98.png"; // Use a better fallback image
+        return icons[condition] || "images/clear-1-98.png";
       }
 
-      // Check if data is available before accessing
       if (data && data.weather && data.weather.length > 0) {
-        const weatherCondition = data.weather[0].main; // Extract weather condition
+        const weatherCondition = data.weather[0].main;
         document.querySelector(".weather-condition").innerText =
-          weatherCondition; // Display condition
+          weatherCondition;
         document.querySelector(".weather-icon-sun").src =
-          getWeatherIcon(weatherCondition); // Set icon
-      } else {
-        console.error("Weather data is not available.");
+          getWeatherIcon(weatherCondition);
       }
 
+      // Get forecast data
       function getDateForcast() {
         fetch(
           `https://api.openweathermap.org/data/2.5/forecast?q=${city_name_value}&appid=${apiKey}&units=metric`
         )
-          .then((res) => {
-            let response = res.json();
-            return response;
-          })
+          .then((res) => res.json())
           .then((data) => {
             let dailyForcast = "";
-            console.log(data);
             for (let i = 0; i < data.list.length; i += 8) {
-              // console.log(data.list[i].weather[0].main);
               let weather_condition = data.list[i].weather[0].main;
               let temp = Math(data.list[i].main.temp);
 
               function getDayAndDate(data) {
                 let timestamp = data;
-                // let timezoneOffset = data.timezone;
-
                 let utcDate = new Date(timestamp * 1000);
-
                 let localDate = new Date(utcDate.getTime());
-
                 let day = localDate.toLocaleDateString("en-US", {
                   weekday: "short",
                 });
@@ -190,7 +190,6 @@ function fetchData() {
               }
 
               let { day, date } = getDayAndDate(data.list[i].dt);
-
               let imgPath = getWeatherIcon(data.list[i].weather[0].main);
 
               dailyForcast += `<li class="forecast-item">
@@ -200,59 +199,57 @@ function fetchData() {
                             </li>`;
             }
 
-            let daily_forcast = (document.querySelector(
-              ".daily-forcast"
-            ).innerHTML = dailyForcast);
+            document.querySelector(".daily-forcast").innerHTML = dailyForcast;
           });
       }
       getDateForcast();
-
-      function getHourlyForcast() {
-        fetch(
-          `https://api.openweathermap.org/data/2.5/forecast?q=${city_name_value}&appid=${apiKey}&units=metric`
-        )
-          .then((res) => {
-            let response = res.json();
-            return response;
-          })
-          .then((data) => {
-            // console.log(data);
-
-            let hourlyForcast = ``;
-            for (let i = 0; i < 5; i++) {
-              let weather_condition = data.list[i].weather[0].main;
-              let temp = Math.round(data.list[i].main.temp);
-              let windSpeed = data.list[i].wind.speed;
-              let imgPath = getWeatherIcon(data.list[i].weather[0].main);
-
-              function getTimeFromDT(dt) {
-                // Convert timestamp (dt) to a Date object
-                const date = new Date(dt * 1000);
-
-                // Format time as HH:MM AM/PM (e.g., 12:00 AM/PM)
-                return new Intl.DateTimeFormat("en-US", {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                  hour12: true,
-                }).format(date);
-              }
-
-              let time = getTimeFromDT(data.list[i].dt);
-              hourlyForcast += `
-                        <div class="hour-card">
-                            <p class="time">${time}</p>
-                            <img src="${imgPath}" alt="${weather_condition}" class="weather-icon">
-                            <p class="temp temp1">${temp}°C</p>
-                            <img src="images/navigation-1-16.png" alt="Wind" class="wind-icon">
-                            <p class="wind-speed">${windSpeed}km/h</p>
-                        </div>
-              `;
-            }
-            let hourly_forcast = (document.querySelector(
-              ".hourly-forcast"
-            ).innerHTML = hourlyForcast);
-          });
-      }
-      getHourlyForcast();
+    })
+    .catch(() => {
+      alert("An error occurred. Please try again later.");
     });
 }
+
+// Get the current location when the "Current Location" button is clicked
+const locationButton = document.querySelector(".current-location-btn");
+
+locationButton.addEventListener("click", () => {
+  // Check if geolocation is available
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+
+        // Fetch weather data based on geolocation
+        fetch(
+          `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`
+        )
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.cod === "404") {
+              alert("Could not fetch weather data. Try again.");
+            } else {
+              let cityName = data.name;
+
+              // Display city name for weather and time section
+              document.querySelector(".city-name").innerText = cityName;
+              document.getElementById(
+                "cityNameInTimeSection"
+              ).innerText = `in ${cityName}`;
+              locationButton.innerText = `Current Location: ${cityName}`;
+
+              // Fetch weather data for the city
+              fetchData(cityName);
+            }
+          })
+          .catch(() => {
+            alert("Error fetching weather data. Try again.");
+          });
+      },
+      (error) => {
+        alert("Geolocation error: " + error.message);
+      }
+    );
+  } else {
+    alert("Geolocation is not supported by this browser.");
+  }
+});
