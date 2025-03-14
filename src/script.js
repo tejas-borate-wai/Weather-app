@@ -46,13 +46,13 @@ search_icon.addEventListener("click", () => {
   console.log("input city name :", city_name_input.value);
 
   city_name_value = city_name_input.value;
-  fetchData();
+  fetchData(city_name_value);
   city_name_input.value = "";
 });
 
-function fetchData() {
+function fetchData(cityname) {
   fetch(
-    `https://api.openweathermap.org/data/2.5/weather?q=${city_name_value}&appid=${apiKey}&units=metric`
+    `https://api.openweathermap.org/data/2.5/weather?q=${cityname}&appid=${apiKey}&units=metric`
   )
     .then((res) => {
       let response = res.json();
@@ -82,7 +82,7 @@ function fetchData() {
 
       let weatherInfo = data.weather[0].main;
       // console.log(weatherInfo);
-      console.log(data);
+      // console.log(data);
       document.querySelector(".weather-condition").innerText = `${weatherInfo}`;
 
       // gett current day and date
@@ -157,7 +157,7 @@ function fetchData() {
 
       function getDateForcast() {
         fetch(
-          `https://api.openweathermap.org/data/2.5/forecast?q=${city_name_value}&appid=${apiKey}&units=metric`
+          `https://api.openweathermap.org/data/2.5/forecast?q=${cityname}&appid=${apiKey}&units=metric`
         )
           .then((res) => {
             let response = res.json();
@@ -165,11 +165,11 @@ function fetchData() {
           })
           .then((data) => {
             let dailyForcast = "";
-            console.log(data);
+            // console.log(data);
             for (let i = 0; i < data.list.length; i += 8) {
               // console.log(data.list[i].weather[0].main);
               let weather_condition = data.list[i].weather[0].main;
-              let temp = Math(data.list[i].main.temp);
+              let temp = Math.round(data.list[i].main.temp);
 
               function getDayAndDate(data) {
                 let timestamp = data;
@@ -209,7 +209,7 @@ function fetchData() {
 
       function getHourlyForcast() {
         fetch(
-          `https://api.openweathermap.org/data/2.5/forecast?q=${city_name_value}&appid=${apiKey}&units=metric`
+          `https://api.openweathermap.org/data/2.5/forecast?q=${cityname}&appid=${apiKey}&units=metric`
         )
           .then((res) => {
             let response = res.json();
@@ -254,5 +254,53 @@ function fetchData() {
           });
       }
       getHourlyForcast();
+    })
+    .catch((error) => {
+      alert("City Not Found , Please enter valid city !");
     });
 }
+
+let currLocationButton = document.querySelector(".current-location-btn");
+currLocationButton.addEventListener("click", () => {
+  function getCurrentLocation(callback) {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const latitude = position.coords.latitude;
+          const longitude = position.coords.longitude;
+          console.log("Latitude:", latitude, "Longitude:", longitude);
+
+          // Call the callback function with the location
+          callback({ latitude, longitude });
+        },
+        (error) => {
+          console.error("Error getting location:", error.message);
+          alert(
+            "Unable to retrieve location. Please enable location services."
+          );
+        }
+      );
+    } else {
+      alert("Geolocation is not supported by your browser.");
+    }
+  }
+
+  function printLocation(latitude, longitude) {
+    fetch(
+      `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("Current Location : ", data.name);
+        currLocationButton.innerText = data.name;
+        let cityName = data.name;
+        fetchData(cityName);
+      })
+      .catch((error) => console.error("Error fetching weather data:", error));
+  }
+
+  // Get location and then fetch weather data
+  getCurrentLocation(({ latitude, longitude }) => {
+    printLocation(latitude, longitude);
+  });
+});
