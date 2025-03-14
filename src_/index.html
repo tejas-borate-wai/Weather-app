@@ -6,7 +6,386 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather App</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        body.dark-mode {
+            background-color: #1e1e1e;
+            color: white;
+        }
+
+        /* General Card Styling */
+        .card {
+            background: #575555;
+            color: white;
+            border-radius: 10px;
+        }
+
+        .card:hover {
+            box-shadow: 5px 5px 13px 3px rgb(46, 46, 46) !important;
+        }
+
+        /* Dark Mode Toggle */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 26px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: 0.4s;
+            border-radius: 26px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: 0.4s;
+            border-radius: 50%;
+        }
+
+        input:checked+.slider {
+            background-color: #4CAF50;
+        }
+
+        input:checked+.slider:before {
+            transform: translateX(24px);
+        }
+
+        /* Search Bar */
+        .search-bar {
+            max-width: 700px;
+        }
+
+        .search-input {
+            height: 50px;
+            background-color: #2d2d2d;
+            border: none;
+            border-radius: 30px 0 0 30px;
+            color: white;
+            font-size: 22px;
+            padding-right: 10px;
+            padding-left: 50px;
+            font-weight: bold;
+        }
+
+        .search-input::placeholder {
+            color: #aaa;
+        }
+
+        .search-icon {
+            background-color: #2d2d2d;
+            color: white;
+            border: none;
+            border-radius: 0 30px 30px 0;
+            font-size: 20px;
+            padding: 10px 15px;
+            cursor: pointer;
+        }
+
+        /* Current Location Button */
+        .current-location-btn {
+            text-align: center;
+            width: 300px;
+            height: 50px;
+            font-size: 18px;
+            border-radius: 30px;
+        }
+
+        .equal-height {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 100%;
+            min-height: 200px;
+        }
+
+        .time-card {
+            color: white;
+            border-radius: 15px;
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+            padding: 30px;
+        }
+
+        .city-name {
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .time-display {
+            font-size: 3rem;
+            font-weight: bold;
+        }
+
+        .date-display {
+            font-size: 1rem;
+            color: #ccc;
+        }
+
+        .weather-card {
+            color: white;
+            border-radius: 15px;
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+            padding: 30px;
+        }
+
+        .temperature {
+            margin-top: -40px !important;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .feels-like {
+            font-size: 1rem;
+            color: #bbb;
+        }
+
+        .feels-like span {
+            font-weight: bold;
+            color: white;
+        }
+
+        .weather-icon {
+            width: 150px;
+            height: 150px;
+        }
+
+        .weather-icon-sun {
+            width: 130px;
+            height: 130px;
+        }
+
+        .weather-icon-small {
+            width: 40px;
+            height: 40px;
+        }
+
+        .sun-info {
+            display: flex;
+            justify-content: start;
+            gap: 20px;
+        }
+
+        .sun-item {
+            text-align: center;
+        }
+
+        .time-text {
+            font-size: 0.9rem;
+            color: #bbb;
+        }
+
+        .sun-item p {
+            margin: 0;
+            font-size: 1rem;
+            color: white;
+        }
+
+        .weather-stats .row {
+            margin-bottom: 10px;
+        }
+
+        .hour-card {
+            text-align: center;
+            padding: 10px;
+        }
+
+        .forecast-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .forecast-item {
+            display: flex;
+            align-items: center;
+            justify-content: start;
+            gap: 15px;
+            padding: 4px 0;
+        }
+
+        .forecast-icon {
+            width: 40px;
+            height: 40px;
+        }
+
+        .temp {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .date {
+            font-size: 1rem;
+            color: #bbb;
+            margin-left: auto;
+        }
+
+        .forecast-card {
+            color: white;
+            border-radius: 15px;
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .hour-card {
+            background-color: black;
+            border-radius: 15px;
+            padding: 15px;
+            width: 115px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 5px;
+        }
+
+        .time {
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .weather-icon {
+            width: 40px;
+            height: 40px;
+            margin-bottom: 10px;
+        }
+
+        .temp {
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .temp1 {
+            font-weight: bold;
+            font-size: 18px;
+            margin: 2px 0px;
+        }
+
+        .wind-icon {
+            width: 30px;
+            height: 30px;
+            margin-bottom: 10px;
+        }
+
+        .wind-speed {
+            font-size: 14px;
+        }
+
+        @media (min-width: 426px) and (max-width: 768px) {
+            .hour-card {
+                width: 40% !important;
+                /* Make hour cards full width on small screens */
+                /* margin: 5px 0; */
+                /* Adjust margin for better spacing */
+            }
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .search-bar {
+                width: 100%;
+            }
+
+            .current-location-btn {
+                width: 100%;
+                margin-top: 10px;
+            }
+
+            .hour-card {
+                width: 100%;
+                /* Make hour cards full width on small screens */
+                margin: 5px 0;
+                /* Adjust margin for better spacing */
+            }
+
+            .forecast-card {
+                margin-bottom: 20px;
+                /* Add margin for spacing */
+            }
+
+            .time-card,
+            .weather-card {
+                margin-bottom: 20px;
+                /* Add margin for spacing between cards */
+            }
+
+            .city-name {
+                font-size: 1.5rem;
+                /* Increase font size for better visibility */
+            }
+
+            .time-display {
+                font-size: 2.5rem;
+                /* Adjust time display size */
+            }
+
+            .date-display {
+                font-size: 0.9rem;
+                /* Adjust date display size */
+            }
+        }
+
+        /* Tablet View (768px to 1024px) */
+        @media (min-width: 768px) and (max-width: 1024px) {
+            .forecast-card {
+                width: 100%;
+                /* Make forecast card take full width
+                margin-bottom: 20px; */
+            }
+
+            .hourly-forcast {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            /* Ensure the 5-day forecast section spans full width */
+            .daily-forcast {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-around;
+                padding: 10px;
+            }
+
+            .forecast-item {
+                width: 75%;
+                text-align: center;
+                padding: 8px 0;
+            }
+        }
+
+
+        /* Desktop View (Above 1024px) */
+        @media (min-width: 1024px) {
+            .forecast-card {
+                width: auto;
+                /* Reset width for desktop view */
+            }
+
+            .forecast-card {
+                margin-bottom: 0;
+                /* Remove margin for desktop view */
+            }
+        }
+    </style>
 </head>
 
 <body class="dark-mode">
