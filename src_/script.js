@@ -59,6 +59,7 @@ function fetchData(cityname) {
       return response;
     })
     .then((data) => {
+      console.log(data);
       let cityName = data.name;
       document.querySelector(".city-name").innerText = cityName;
 
